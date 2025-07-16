@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Meus pets{% endblock title %}
+
+{% block content %}
+    <h1>Meus Pets</h1>
+    <a href="{% url 'pets:create' %}" class="btn btn-primary mb-3">Cadastrar Novo Pet</a>
+
+    {% if pets %}
+        <div class="list-group">
+            {% for pet in pets %}
+                <div class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ pet.name }}</h5>
+                        <small class="text-muted">{{ pet.age|default:"Idade não informada" }}</small>
+                    </div>
+                  
+                    <p class="mb-1">
+                        {{ pet.get_species_display }} | Raça: {{ pet.breed|default:"Não informada" }}
+                    </p>
+
+                    <small>
+                        <a href="{% url 'pets:update' pet.pk %}" class="btn btn-sm btn-info">Editar</a>
+                        <a href="{% url 'pets:delete' pet.pk %}" class="btn btn-sm btn-danger">Deletar</a>
+                    </small>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Você ainda não cadastrou nenhum pet.</p>
+    {% endif %}
+{% endblock %}
