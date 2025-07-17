@@ -7,4 +7,5 @@ urlpatterns = [
     path('create/', views.PetCreateView.as_view(), name='create'),
     path('<int:pk>/update/', views.PetUpdateView.as_view(), name='update'),
     path('<int:pk>/delete/', views.PetDeleteView.as_view(), name='delete'),
+    path('<int:pk>/profile/', views.PetProfileView.as_view(), name='profile'),
 ]

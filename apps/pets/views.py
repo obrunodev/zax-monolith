@@ -1,5 +1,5 @@
 # pets/views.py
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from apps.pets.models import Pet
@@ -11,7 +11,6 @@ class PetListView(LoginRequiredMixin, ListView):
     context_object_name = 'pets'
 
     def get_queryset(self):
-        # Filtra os pets para mostrar apenas os do tutor logado
         return Pet.objects.filter(tutor=self.request.user.profile)
 
 class PetCreateView(LoginRequiredMixin, CreateView):
@@ -21,7 +20,6 @@ class PetCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('pets:list')
 
     def form_valid(self, form):
-        # Associa o pet ao perfil do tutor logado antes de salvar
         form.instance.tutor = self.request.user.profile
         return super().form_valid(form)
 
@@ -32,7 +30,6 @@ class PetUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('pets:list')
 
     def get_queryset(self):
-        # Garante que o usuário só pode editar seus próprios pets
         return Pet.objects.filter(tutor=self.request.user.profile)
 
 class PetDeleteView(LoginRequiredMixin, DeleteView):
@@ -42,5 +39,10 @@ class PetDeleteView(LoginRequiredMixin, DeleteView):
     context_object_name = 'pet'
 
     def get_queryset(self):
-        # Garante que o usuário só pode deletar seus próprios pets
         return Pet.objects.filter(tutor=self.request.user.profile)
+
+
+class PetProfileView(DetailView):
+    model = Pet
+    template_name = 'pets/pet_profile.html'
+    context_object_name = 'pet'

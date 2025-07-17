@@ -5,7 +5,7 @@
 
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {% include "partials/form_snippet.html" with col_size=6 %}
         <button type="submit" class="btn btn-success">Salvar</button>
         <a href="{% url 'pets:list' %}" class="btn btn-secondary">Cancelar</a>
     </form>

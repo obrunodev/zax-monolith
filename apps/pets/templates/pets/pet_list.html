@@ -20,8 +20,7 @@
                     </p>
 
                     <small>
-                        <a href="{% url 'pets:update' pet.pk %}" class="btn btn-sm btn-info">Editar</a>
-                        <a href="{% url 'pets:delete' pet.pk %}" class="btn btn-sm btn-danger">Deletar</a>
+                        <a href="{% url 'pets:profile' pet.pk %}" class="btn btn-sm btn-primary">Perfil</a>
                     </small>
                 </div>
             {% endfor %}

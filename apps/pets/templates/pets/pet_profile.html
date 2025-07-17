@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Perfil do {{ pet.name }}{% endblock title %}
+
+{% block content %}
+
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h3>Perfil do {{ pet.name }}</h3>            
+                <small>
+                    <a href="{% url 'pets:update' pet.pk %}" class="btn btn-sm btn-info">Editar</a>
+                    <a href="{% url 'pets:delete' pet.pk %}" class="btn btn-sm btn-danger">Deletar</a>
+                </small>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <strong>Nome:</strong>
+                    {{ pet.name }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Data de nascimento:</strong>
+                    {{ pet.birth_date|default:"Não informado" }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
