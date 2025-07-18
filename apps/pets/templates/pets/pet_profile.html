@@ -1,41 +1,73 @@
 {% extends "base.html" %}
 
-{% block title %}Perfil do {{ pet.name }}{% endblock title %}
+{% block title %}Perfil de {{ pet.name }}{% endblock title %}
 
 {% block content %}
+    <div class="my-5">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0">Ficha Cadastral do Pet</h2>
+            </div>
+            <div class="card-body p-4">
+                <div class="row align-items-center">
+                    <div class="col-md-3 text-center mb-4 mb-md-0">
+                        {% if pet.image %}
+                            <img src="{{ pet.image.url }}" class="img-fluid rounded-circle border border-2 border-primary" alt="Foto de {{ pet.name }}" style="width: 150px; height: 150px; object-fit: cover;">
+                        {% else %}
+                            <div class="bg-light rounded-circle d-flex align-items-center justify-content-center border" style="width: 150px; height: 150px;">
+                                <span class="text-muted">Sem Foto</span>
+                            </div>
+                        {% endif %}
+                    </div>
 
-    <div class="card">
-        <div class="card-header">
-            <div class="d-flex justify-content-between">
-                <h3>Perfil do {{ pet.name }}</h3>            
-                <small>
-                    <a href="{% url 'pets:update' pet.pk %}" class="btn btn-sm btn-info">Editar</a>
-                    <a href="{% url 'pets:delete' pet.pk %}" class="btn btn-sm btn-danger">Deletar</a>
-                </small>
+                    <div class="col-md-9">
+                        <h1 class="display-6">{{ pet.name }}</h1>
+                        
+                        <dl class="row mt-3">
+                            <dt class="col-sm-4 col-lg-3">Data de Nascimento:</dt>
+                            <dd class="col-sm-8 col-lg-9">{{ pet.birth_date|date:"d/m/Y"|default:"Não informado" }}</dd>
+
+                            <dt class="col-sm-4 col-lg-3">Espécie:</dt>
+                            <dd class="col-sm-8 col-lg-9">{{ pet.get_species_display|default:"Não informado" }}</dd>
+
+                            <dt class="col-sm-4 col-lg-3">Raça:</dt>
+                            <dd class="col-sm-8 col-lg-9">{{ pet.breed|default:"Não informado" }}</dd>
+                        </dl>
+
+                        <div class="mt-4">
+                            <a href="{% url 'pets:update' pet.pk %}" class="btn btn-info">
+                                <i class="bi bi-pencil-square"></i> Editar Perfil
+                            </a>
+                            <a href="{% url 'pets:delete' pet.pk %}" class="btn btn-danger">
+                                <i class="bi bi-trash"></i> Deletar Perfil
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <strong>Nome:</strong>
-                    {{ pet.name }}
-                </div>
-                <div class="col-md-6">
-                    <strong>Data de nascimento:</strong>
-                    {{ pet.birth_date|default:"Não informado" }}
-                </div>
+
+        <div class="card shadow-sm mt-4">
+            <div class="card-header">
+                <h3 class="mb-0">Histórico de Exames</h3>
             </div>
-
-            <hr>
-
-            <h4>Exames realizados</h4>
-
-            <ul>
-                {% for exam in exams %}
-                    <li>{{ exam }}</li>
-                {% endfor %}
-            </ul>
+            <div class="card-body">
+                {% if exams %}
+                    <ul class="list-group list-group-flush">
+                        {% for exam in exams %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ exam.exam_type }}
+                                <span class="badge bg-secondary rounded-pill">{{ exam.exam_date|date:"d M, Y" }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted">Nenhum exame registrado para este pet.</p>
+                {% endif %}
+            </div>
+            <div class="card-footer text-end">
+                <a href="#" class="btn btn-primary">Adicionar Novo Exame</a>
+            </div>
         </div>
     </div>
-
 {% endblock content %}

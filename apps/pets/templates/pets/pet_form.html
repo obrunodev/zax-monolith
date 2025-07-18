@@ -1,12 +1,42 @@
 {% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% if form.instance.pk %}{% trans "Editar Pet" %}{% else %}{% trans "Cadastrar Novo Pet" %}{% endif %}{% endblock title %}
 
 {% block content %}
-    <h1>{% if form.instance.pk %}Editar Pet{% else %}Cadastrar Novo Pet{% endif %}</h1>
+    <div class="my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="mb-0">
+                            {% if form.instance.pk %}
+                                <i class="bi bi-pencil-square me-2"></i>{% trans "Editar Perfil de" %} {{ form.instance.name }}
+                            {% else %}
+                                <i class="bi bi-plus-circle-fill me-2"></i>{% trans "Cadastrar Novo Pet" %}
+                            {% endif %}
+                        </h2>
+                    </div>
+                    <div class="card-body p-4">
+                        {# Add enctype for file uploads (like the pet's image) #}
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            
+                            {# This partial will render your form fields. Assumes it creates a nice layout. #}
+                            {% include "partials/form_snippet.html" with col_size=6 %}
 
-    <form method="post">
-        {% csrf_token %}
-        {% include "partials/form_snippet.html" with col_size=6 %}
-        <button type="submit" class="btn btn-success">Salvar</button>
-        <a href="{% url 'pets:list' %}" class="btn btn-secondary">Cancelar</a>
-    </form>
+                            <div class="text-end mt-4">
+                                <a href="{% url 'pets:list' %}" class="btn btn-secondary">
+                                    <i class="bi bi-x-circle me-1"></i>{% trans "Cancelar" %}
+                                </a>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-check-circle-fill me-1"></i>{% trans "Salvar" %}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
