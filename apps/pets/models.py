@@ -79,3 +79,38 @@ class Pet(BaseModel):
                 return "Menos de 1 mês"
             
             return f"{months} mes{'es' if months > 1 else ''}"
+
+
+class Exam(BaseModel):
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name='exams')
+    exam_type = models.CharField('Tipo de exame', max_length=100)
+    exam_date = models.DateField('Data do exame', default=timezone.now)
+    vet_name = models.CharField('Nome do veterinário', max_length=255, blank=True, null=True)
+    clinic_name = models.CharField('Nome da clínica', max_length=100, blank=True, null=True)
+    notes = models.TextField('Observações', blank=True, null=True)
+    exam_file = models.FileField('Arquivo do exame', upload_to='exam_files/', blank=True, null=True)
+
+    class Meta:
+        ordering = ['-exam_date']
+        verbose_name = 'Exame'
+        verbose_name_plural = 'Exames'
+    
+    def __str__(self):
+        return f'{self.pet.name} - {self.exam_type} ({self.exam_date.strftime("%d/%m/%Y")})'
+
+
+class ExamResult(models.Model):
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name='results')
+    name = models.CharField('Nome do resultado', max_length=100)
+    value = models.CharField('Valor encontrado', max_length=200)
+    reference_range = models.CharField('Faixa de referência', max_length=100, blank=True, null=True)
+    unit = models.CharField('Unidade', max_length=20, blank=True, null=True)
+    notes = models.TextField('Observações do Resultado', blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Resultado do Exame"
+        verbose_name_plural = "Resultados do Exame"
+        unique_together = ('exam', 'name')
+
+    def __str__(self):
+        return f"{self.name}: {self.value} ({self.exam.exam_type})"

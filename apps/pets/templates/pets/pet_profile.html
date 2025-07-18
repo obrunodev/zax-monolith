@@ -25,6 +25,16 @@
                     {{ pet.birth_date|default:"Não informado" }}
                 </div>
             </div>
+
+            <hr>
+
+            <h4>Exames realizados</h4>
+
+            <ul>
+                {% for exam in exams %}
+                    <li>{{ exam }}</li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 

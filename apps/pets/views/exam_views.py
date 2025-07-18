@@ -1,0 +1,1 @@
+from apps.pets.models import Exam

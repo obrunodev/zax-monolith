@@ -46,3 +46,13 @@ class PetProfileView(DetailView):
     model = Pet
     template_name = 'pets/pet_profile.html'
     context_object_name = 'pet'
+
+    def get_queryset(self):
+        return super().get_queryset().prefetch_related(
+            'exams__results'
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['exams'] = self.object.exams.all()
+        return context

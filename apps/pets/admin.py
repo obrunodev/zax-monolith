@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import Pet, Exam, ExamResult
 
-# Register your models here.
+admin.site.register(Pet)
+admin.site.register(Exam)
+admin.site.register(ExamResult)
