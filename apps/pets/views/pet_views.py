@@ -3,7 +3,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, D
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from apps.pets.models import Pet
-from apps.pets.forms import PetForm
+from apps.pets.forms import ExamForm, PetForm
 
 class PetListView(LoginRequiredMixin, ListView):
     model = Pet
@@ -31,6 +31,11 @@ class PetUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_queryset(self):
         return Pet.objects.filter(tutor=self.request.user.profile)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['exam_form'] = ExamForm()
+        return context
 
 class PetDeleteView(LoginRequiredMixin, DeleteView):
     model = Pet

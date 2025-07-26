@@ -10,4 +10,7 @@ urlpatterns = [
     path('<int:pk>/update/', pet_views.PetUpdateView.as_view(), name='update'),
     path('<int:pk>/delete/', pet_views.PetDeleteView.as_view(), name='delete'),
     path('<int:pk>/profile/', pet_views.PetProfileView.as_view(), name='profile'),
+
+    # Exam views
+    path('<int:pet_id>/upload-exam/', exam_views.upload_exam, name='upload_exam'),
 ]

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block title %}{% if form.instance.pk %}{% trans "Editar Pet" %}{% else %}{% trans "Cadastrar Novo Pet" %}{% endif %}{% endblock title %}
+{% block title %}{% if form.instance.pk %}{% trans "Editar informações do exame" %}{% else %}{% trans "Subir um novo exame" %}{% endif %}{% endblock title %}
 
 {% block content %}
     <div class="my-5">
@@ -11,9 +11,9 @@
                     <div class="card-header bg-primary text-white">
                         <h2 class="mb-0">
                             {% if form.instance.pk %}
-                                <i class="bi bi-pencil-square me-2"></i>{% trans "Editar Perfil de" %} {{ form.instance.name }}
+                                <i class="bi bi-pencil-square me-2"></i>{% trans "Editar dados do exame" %}
                             {% else %}
-                                <i class="bi bi-plus-circle-fill me-2"></i>{% trans "Cadastrar Novo Pet" %}
+                                <i class="bi bi-plus-circle-fill me-2"></i>{% trans "Fazer upload de exame" %}
                             {% endif %}
                         </h2>
                     </div>
@@ -24,17 +24,11 @@
                             {% include "partials/form_snippet.html" with col_size=6 %}
 
                             <div class="text-end mt-4">
-                                {% if form.instance.pk %}
-                                    <a href="{% url 'pets:profile' form.instance.pk %}" class="btn btn-secondary">
-                                        <i class="bi bi-x-circle me-1"></i>{% trans "Cancelar" %}
-                                    </a>
-                                {% else %}
-                                    <a href="{% url 'pets:list' %}" class="btn btn-secondary">
-                                        <i class="bi bi-x-circle me-1"></i>{% trans "Cancelar" %}
-                                    </a>
-                                {% endif %}
+                                <a href="{% url 'pets:profile' pet.id %}" class="btn btn-secondary">
+                                    <i class="bi bi-x-circle me-1"></i>{% trans "Cancelar" %}
+                                </a>
                                 <button type="submit" class="btn btn-success">
-                                    <i class="bi bi-check-circle-fill me-1"></i>{% trans "Salvar" %}
+                                    <i class="bi bi-check-circle-fill me-1"></i>{% trans "Enviar" %}
                                 </button>
                             </div>
                         </form>

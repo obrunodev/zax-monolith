@@ -1,6 +1,6 @@
 from django import forms
 from shared.forms import BaseModelForm
-from apps.pets.models import Pet
+from apps.pets.models import Exam, Pet
 
 class PetForm(BaseModelForm):
     class Meta:
@@ -12,3 +12,9 @@ class PetForm(BaseModelForm):
                 format='%Y-%m-%d'
             ),
         }
+
+
+class ExamForm(BaseModelForm):
+    class Meta:
+        model = Exam
+        fields = ['exam_type', 'vet_name', 'clinic_name', 'notes', 'exam_file']
